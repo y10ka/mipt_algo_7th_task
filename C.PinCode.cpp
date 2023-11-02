@@ -1,5 +1,3 @@
-// C
-
 #include <iostream>
 #include <vector>
 
