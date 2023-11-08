@@ -26,12 +26,12 @@ int PwrOfTwo(int argument) {
 
 struct GcdSparseTable {
   IntMatrix table;
-  explicit GcdSparseTable(IntVector massive) {
-    auto size = static_cast<int>(massive.size());
+  explicit GcdSparseTable(const IntVector& array) {
+    auto size = static_cast<int>(array.size());
     int k = MaxPowerOfTwo(size);
     table = IntMatrix(size, IntVector(k + 1, -inf));
     for (int i = 0; i < size; ++i) {
-      table[i][0] = massive[i];
+      table[i][0] = array[i];
     }
     int width = 1;
     for (int i = 1; i <= k; ++i) {
