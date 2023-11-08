@@ -25,12 +25,12 @@ int64_t PwrOfTwo(int64_t argument) {
 
 struct MinSparseTable {
   IntMatrix table;
-  explicit MinSparseTable(IntVector massive) {
-    auto size = static_cast<int64_t>(massive.size());
+  explicit MinSparseTable(const IntVector& array) {
+    auto size = static_cast<int64_t>(array.size());
     int k = MaxPowerOfTwo(size);
     table = IntMatrix(size, IntVector(k + 1, inf));
     for (int64_t i = 0; i < size; ++i) {
-      table[i][0] = massive[i];
+      table[i][0] = array[i];
     }
     int64_t width = 1;
     for (int i = 1; i <= k; ++i) {
