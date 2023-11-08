@@ -7,14 +7,14 @@ int64_t zero = 0;
 struct BinaryIndexedTree {
   int64_t size;
   IntVector data;
-  IntVector massive;
-  explicit BinaryIndexedTree(int64_t n) : size(n), data(size + 1, 0), massive(size + 1, 0) {
+  IntVector array;
+  explicit BinaryIndexedTree(int64_t n) : size(n), data(size + 1, 0), array(size + 1, 0) {
   }
   void Input(int64_t n) {
     IntVector temp_prefix(n + 1, 0);
     for (int64_t idx = 1; idx < n + 1; ++idx) {
-      std::cin >> massive[idx];
-      temp_prefix[idx] = massive[idx];
+      std::cin >> array[idx];
+      temp_prefix[idx] = array[idx];
       temp_prefix[idx] += temp_prefix[idx - 1];
     }
     for (int64_t idx = 1; idx < n + 1; ++idx) {
@@ -22,8 +22,8 @@ struct BinaryIndexedTree {
     }
   }
   void Update(int64_t pos, int64_t updated) {
-    int64_t delta = updated - massive[pos];
-    massive[pos] = updated;
+    int64_t delta = updated - array[pos];
+    array[pos] = updated;
     for (int64_t i = pos; i < size + 1; i = (i | (i + 1))) {
       data[i] += delta;
     }
