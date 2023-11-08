@@ -136,6 +136,10 @@ void ToStart(Treap& tree, int64_t left, int64_t right) {
   return ToStart(tree.root, left, right);
 }
 
+int64_t PseudoRandom(int64_t value) {
+  return ((value * 3253361) % 23535353) % 235555;
+}
+
 int main() {
   Treap tree;
   int64_t left_border = 0;
@@ -144,7 +148,7 @@ int main() {
   int64_t m = 0;
   std::cin >> n >> m;
   for (int64_t i = 0; i < n; ++i) {
-    Insert(tree, i + 1, ((i * 3253361) % 23535353) % 235555);
+    Insert(tree, i + 1, PseudoRandom(i));
   }
   for (int64_t i = 0; i < m; ++i) {
     std::cin >> left_border >> right_border;
