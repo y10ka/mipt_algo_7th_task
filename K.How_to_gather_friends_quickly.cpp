@@ -15,8 +15,16 @@ struct Node {
   Node* right;
   Node* parent;
   Node() = default;
-  Node(int64_t key, int64_t value) : key(key), value(value), rank(1), result(key), sub_min(key), sub_max(key),
-                                     left(nullptr), right(nullptr), parent(nullptr) {
+  Node(int64_t key, int64_t value)
+      : key(key)
+      , value(value)
+      , rank(1)
+      , result(key)
+      , sub_min(key)
+      , sub_max(key)
+      , left(nullptr)
+      , right(nullptr)
+      , parent(nullptr) {
   }
 };
 
@@ -155,6 +163,10 @@ int64_t RSQ(const Treap& tree, int64_t left, int64_t right) {
   return RSQ(tree.root, left, right);
 }
 
+int64_t PseudoRandom(int64_t value) {
+  return ((value * 3253361) % 23535353) % 235555;
+}
+
 int main() {
   Treap tree;
   char query = '0';
@@ -167,7 +179,7 @@ int main() {
     std::cin >> query;
     if (query == '+') {
       std::cin >> value;
-      Insert(tree, value, ((value * 3253361) % 23535353) % 235555);
+      Insert(tree, value, PseudoRandom(value));
     }
     if (query == '?') {
       std::cin >> left_border >> right_border;
