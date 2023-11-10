@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <random>
 
 int64_t none = -11111111111;
 
@@ -16,6 +17,18 @@ struct Node {
   }
 };
 
+void Delete(Node* node) {
+  if (!node) {
+    return;
+  }
+  Delete(node->left);
+  Delete(node->right);
+  node->left = nullptr;
+  node->right = nullptr;
+  node->parent = nullptr;
+  delete node;
+}
+
 struct Treap {
   Node* root;
   Treap() : root(nullptr) {
@@ -23,6 +36,10 @@ struct Treap {
   explicit Treap(Node* ptr) : root(ptr) {
   }
 };
+
+void Delete(Treap& tree) {
+  Delete(tree.root);
+}
 
 void FixNode(Node* node) {
   if (!node) {
@@ -102,7 +119,7 @@ bool Exists(Node* tree, int64_t key) {
   }
   return (tree->key > key ? Exists(tree->left, key) : Exists(tree->right, key));
 }
-bool Exists(Treap tree, int64_t key) {
+bool Exists(const Treap& tree, int64_t key) {
   return Exists(tree.root, key);
 }
 
@@ -168,7 +185,7 @@ int64_t KthElement(Node* tree, int64_t idx) {
   }
   return KthElement(tree->right, idx - tree->left->rank - 1);
 }
-int64_t KthElement(Treap tree, int64_t idx) {
+int64_t KthElement(const Treap& tree, int64_t idx) {
   return KthElement(tree.root, idx);
 }
 
@@ -185,7 +202,7 @@ int64_t Next(Node* tree, int64_t x) {
   int64_t left_res = Next(tree->left, x);
   return (left_res == none ? tree->key : left_res);
 }
-int64_t Next(Treap tree, int64_t x) {
+int64_t Next(const Treap& tree, int64_t x) {
   return Next(tree.root, x);
 }
 
@@ -202,17 +219,21 @@ int64_t Prev(Node* tree, int64_t x) {
   int64_t right_res = Prev(tree->right, x);
   return (right_res == none ? tree->key : right_res);
 }
-int64_t Prev(Treap tree, int64_t x) {
+int64_t Prev(const Treap& tree, int64_t x) {
   return Prev(tree.root, x);
 }
 
 int main() {
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  std::cout.tie(nullptr);
+
   Treap tree;
   std::string query;
   int64_t x = 0;
   while (std::cin >> query >> x) {
     if (query == "insert") {
-      Insert(tree, x, ((x * 3253361) % 23535353) % 235555);
+      Insert(tree, x, rand());
     }
     if (query == "delete") {
       Erase(tree, x);
@@ -233,4 +254,5 @@ int main() {
       std::cout << (ans == none ? "none" : std::to_string(ans)) << '\n';
     }
   }
+  Delete(tree);
 }
