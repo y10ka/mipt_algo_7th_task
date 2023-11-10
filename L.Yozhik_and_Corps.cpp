@@ -1,8 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
-int64_t neutral = 11111111111;
+#include <random>
 
 struct Node {
   int64_t key;
@@ -46,7 +45,7 @@ struct Treap {
   }
 };
 
-void Print(Node* node) {
+void Print(const Node* node) {
   if (!node) {
     return;
   }
@@ -54,7 +53,7 @@ void Print(Node* node) {
   std::cout << node->key << ' ';
   Print(node->right);
 }
-void Print(Treap& tree) {
+void Print(const Treap& tree) {
   Print(tree.root);
   std::cout << '\n';
 }
@@ -136,10 +135,6 @@ void ToStart(Treap& tree, int64_t left, int64_t right) {
   return ToStart(tree.root, left, right);
 }
 
-int64_t PseudoRandom(int64_t value) {
-  return ((value * 3253361) % 23535353) % 235555;
-}
-
 int main() {
   Treap tree;
   int64_t left_border = 0;
@@ -148,7 +143,7 @@ int main() {
   int64_t m = 0;
   std::cin >> n >> m;
   for (int64_t i = 0; i < n; ++i) {
-    Insert(tree, i + 1, PseudoRandom(i));
+    Insert(tree, i + 1, rand());
   }
   for (int64_t i = 0; i < m; ++i) {
     std::cin >> left_border >> right_border;
