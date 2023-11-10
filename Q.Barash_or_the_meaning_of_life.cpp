@@ -11,18 +11,11 @@ struct Answer {
   }
   Answer(int64_t res, int64_t l, int64_t r) : result(res), left(l), right(r) {
   }
-  void Print() {
+  void Print() const {
     std::cout << result << '\n';
     std::cout << left << ' ' << right << '\n';
   }
 };
-
-void Print(IntVector vec) {
-  for (int i = 0; i < vec.size(); ++i) {
-    std::cout << vec[i] << ' ';
-  }
-  std::cout << '\n';
-}
 
 Answer MaxSummary(const IntVector& array) {
   auto size = static_cast<int64_t>(array.size());
@@ -74,6 +67,5 @@ int main() {
   for (int i = 0; i < n; ++i) {
     std::cin >> array[i];
   }
-  auto answer = MaxSummary(array);
-  answer.Print();
+  MaxSummary(array).Print();
 }
