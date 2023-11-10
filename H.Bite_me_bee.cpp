@@ -19,7 +19,7 @@ struct TreePair {
   }
   TreePair(int value, int promise) : value(value), promise(promise) {
   }
-  TreePair operator+(const TreePair& other) {
+  TreePair operator+(const TreePair& other) const {
     if (value == other.value) {
       return {value, promise + other.promise};
     }
@@ -58,7 +58,7 @@ struct MaxSegmentTree {
       tree[i] = tree[2 * i + 1] + tree[2 * i + 2];
     }
   }
-  IntPair Borders(int idx) {
+  IntPair Borders(int idx) const {
     int left(idx);
     int right(idx);
     while (idx - size + 1 < 0) {
@@ -71,7 +71,7 @@ struct MaxSegmentTree {
     }
     return {left - size + 1, right - size + 1};
   }
-  int Size() {
+  int Size() const {
     return size;
   }
   void Update(int left_border, int right_border, int delta, int idx = 0) {
