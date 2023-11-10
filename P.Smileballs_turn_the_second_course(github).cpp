@@ -2,10 +2,6 @@
 #include <vector>
 #include <string>
 
-int64_t PseudoRandom(int64_t value) {
-  return (((value + 234324) * 3253361 + 2222222222) % 23535353) % 235555;
-}
-
 struct Node {
   int64_t priority;
   int64_t value;
@@ -95,7 +91,7 @@ Node* Merge(Node* tree_1, Node* tree_2) {
   FixNode(tree_1);
   return tree_1;
 }
-Treap Merge(Treap tree_1, Treap tree_2) {
+Treap Merge(Treap& tree_1, Treap& tree_2) {
   return Treap(Merge(tree_1.root, tree_2.root));
 }
 
@@ -133,14 +129,14 @@ std::pair<Node*, Node*> Split(Node* tree, int64_t x0) {
   FixNode(tree_1);
   return {tree_1, tree};
 }
-std::pair<Treap, Treap> Split(Treap tree, int64_t x0) {
+std::pair<Treap, Treap> Split(Treap& tree, int64_t x0) {
   auto pair = Split(tree.root, x0);
   return {Treap(pair.first), Treap(pair.second)};
 }
 
 Node* Insert(Node* tree, int64_t idx, int64_t value) {
   auto trees = Split(tree, idx);
-  return Merge(Merge(trees.first, new Node(value, PseudoRandom(idx))), trees.second);
+  return Merge(Merge(trees.first, new Node(value, rand())), trees.second);
 }
 void Insert(Treap& tree, int64_t idx, int64_t value) {
   tree.root = Insert(tree.root, idx, value);
