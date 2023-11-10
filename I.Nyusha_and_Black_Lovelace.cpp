@@ -36,6 +36,18 @@ struct Node {
   }
 };
 
+void Delete(Node* node) {
+  if (!node) {
+    return;
+  }
+  Delete(node->left);
+  Delete(node->right);
+  node->left = nullptr;
+  node->right = nullptr;
+  node->parent = nullptr;
+  delete node;
+}
+
 struct Treap {
   Node* root;
   bool exist;
@@ -73,6 +85,9 @@ struct Treap {
     }
     exist = true;
   }
+  ~Treap() {
+    Delete(root);
+  }
 };
 
 void Print(Node* cur) {
@@ -80,7 +95,6 @@ void Print(Node* cur) {
     return;
   }
   Print(cur->left);
-  // std::cout << cur->key << "\n";
   if (cur->parent) {
     std::cout << cur->parent->key << ' ';
   } else {
