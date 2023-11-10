@@ -121,7 +121,7 @@ std::pair<Treap, Treap> Split(Treap tree, int64_t x0) {
   return {Treap(pair.first), Treap(pair.second)};
 }
 
-bool Exists(Node* tree, int64_t key) {
+bool Exists(const Node* tree, int64_t key) {
   if (!tree) {
     return false;
   }
@@ -130,7 +130,7 @@ bool Exists(Node* tree, int64_t key) {
   }
   return (tree->key > key ? Exists(tree->left, key) : Exists(tree->right, key));
 }
-bool Exists(Treap tree, int64_t key) {
+bool Exists(const Treap& tree, int64_t key) {
   return Exists(tree.root, key);
 }
 
@@ -145,7 +145,7 @@ void Insert(Treap& tree, int64_t key, int64_t value) {
   tree.root = Insert(tree.root, key, value);
 }
 
-int64_t RSQ(Node* tree, int64_t left, int64_t right) {
+int64_t RSQ(const Node* tree, int64_t left, int64_t right) {
   if (!tree) {
     return 0;
   }
@@ -163,11 +163,11 @@ int64_t RSQ(const Treap& tree, int64_t left, int64_t right) {
   return RSQ(tree.root, left, right);
 }
 
-int64_t PseudoRandom(int64_t value) {
-  return ((value * 3253361) % 23535353) % 235555;
-}
-
 int main() {
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  std::cout.tie(nullptr);
+
   Treap tree;
   char query = '0';
   int64_t left_border = 0;
@@ -179,7 +179,7 @@ int main() {
     std::cin >> query;
     if (query == '+') {
       std::cin >> value;
-      Insert(tree, value, PseudoRandom(value));
+      Insert(tree, value, rand());
     }
     if (query == '?') {
       std::cin >> left_border >> right_border;
