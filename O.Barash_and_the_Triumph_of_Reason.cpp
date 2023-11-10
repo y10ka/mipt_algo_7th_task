@@ -19,7 +19,7 @@ struct Node {
   Node(int pairs, int unused_open, int unused_close)
       : pairs(pairs), unused_open(unused_open), unused_close(unused_close) {
   }
-  Node operator+(Node other) {
+  Node operator+(const Node& other) const {
     Node result;
     int new_pairs = std::min(unused_open, other.unused_close);
     result.pairs = pairs + other.pairs + new_pairs;
@@ -34,7 +34,7 @@ Node neutral(0, 0, 0);
 struct BraceSegmentTree {
   int size;
   std::vector<Node> tree;
-  explicit BraceSegmentTree(std::string seq) : size(MinPwr(seq.size())), tree(size * 2 - 1) {
+  explicit BraceSegmentTree(const std::string& seq) : size(MinPwr(seq.size())), tree(size * 2 - 1) {
     int seq_size = static_cast<int>(seq.size());
     for (int i = 0; i < seq_size; ++i) {
       tree[i + size - 1].unused_open = (seq[i] == '(' ? 1 : 0);
@@ -44,7 +44,7 @@ struct BraceSegmentTree {
       tree[i] = tree[i * 2 + 1] + tree[i * 2 + 2];
     }
   }
-  std::pair<int, int> Borders(int idx) {
+  std::pair<int, int> Borders(int idx) const {
     int sub_size = 1;
     while (idx < size - 1) {
       idx = idx * 2 + 1;
@@ -52,10 +52,10 @@ struct BraceSegmentTree {
     }
     return {idx - size + 1, idx + sub_size - size};
   }
-  bool SubSegment(std::pair<int, int> sub, std::pair<int, int> seg) {
+  bool SubSegment(const std::pair<int, int>& sub, const std::pair<int, int>& seg) const {
     return (seg.first <= sub.first && sub.second <= seg.second);
   }
-  Node Query(int left, int right, int idx, int left_b, int right_b) {
+  Node Query(int left, int right, int idx, int left_b, int right_b) const {
     if (left <= left_b && right_b <= right) {
       return tree[idx];
     }
@@ -65,10 +65,10 @@ struct BraceSegmentTree {
     return Query(left, right, idx * 2 + 1, left_b, left_b + (right_b - left_b) / 2) +
            Query(left, right, idx * 2 + 2, left_b + (right_b - left_b) / 2 + 1, right_b);
   }
-  int MaxRightSequence(int left, int right) {
+  int MaxRightSequence(int left, int right) const {
     return Query(left, right, 0, 0, size - 1).pairs * 2;
   }
-  void Print() {
+  void Print() const {
     for (int i = 0; i < size * 2 - 1; ++i) {
       std::cout << "{" << tree[i].pairs << ',' << tree[i].unused_open << ',' << tree[i].unused_close << "} ";
     }
@@ -86,7 +86,6 @@ int main() {
   std::cin >> sequence;
   std::cin >> q;
   BraceSegmentTree tree(sequence);
-  // tree.Print();
   int left = 0;
   int right = 0;
   for (int i = 0; i < q; ++i) {
