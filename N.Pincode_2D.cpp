@@ -47,7 +47,7 @@ struct SegmentTree2D {
       }
     }
   }
-  IntPair BordersX(int64_t idx) {
+  IntPair BordersX(int64_t idx) const {
     int64_t size = 1;
     while (idx < size_1 - 1) {
       idx = idx * 2 + 1;
@@ -55,7 +55,7 @@ struct SegmentTree2D {
     }
     return {idx - size_1 + 1, idx - size_1 + size};
   }
-  IntPair BordersY(int64_t idx) {
+  IntPair BordersY(int64_t idx) const {
     int64_t size = 1;
     while (idx < size_2 - 1) {
       idx = idx * 2 + 1;
@@ -63,7 +63,7 @@ struct SegmentTree2D {
     }
     return {idx - size_2 + 1, idx - size_2 + size};
   }
-  void XIndexes(IntVector& x_indexes, int64_t x1, int64_t x2, int64_t idx = 0) {
+  void XIndexes(IntVector& x_indexes, int64_t x1, int64_t x2, int64_t idx = 0) const {
     auto borders = BordersX(idx);
     if (x2 < borders.first || borders.second < x1) {
       return;
@@ -75,7 +75,7 @@ struct SegmentTree2D {
     XIndexes(x_indexes, x1, x2, idx * 2 + 1);
     XIndexes(x_indexes, x1, x2, idx * 2 + 2);
   }
-  void YIndexes(IntVector& y_indexes, int64_t y1, int64_t y2, int64_t idx = 0) {
+  void YIndexes(IntVector& y_indexes, int64_t y1, int64_t y2, int64_t idx = 0) const {
     auto borders = BordersY(idx);
     if (y2 < borders.first || borders.second < y1) {
       return;
@@ -87,7 +87,7 @@ struct SegmentTree2D {
     YIndexes(y_indexes, y1, y2, idx * 2 + 1);
     YIndexes(y_indexes, y1, y2, idx * 2 + 2);
   }
-  int64_t Query(int64_t x1, int64_t x2, int64_t y1, int64_t y2) {
+  int64_t Query(int64_t x1, int64_t x2, int64_t y1, int64_t y2) const {
     IntVector x_indexes(0);
     IntVector y_indexes(0);
     XIndexes(x_indexes, x1, x2);
@@ -103,6 +103,10 @@ struct SegmentTree2D {
 };
 
 int main() {
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  std::cout.tie(nullptr);
+
   int64_t m = 0;
   int64_t n = 0;
   std::cin >> m >> n;
