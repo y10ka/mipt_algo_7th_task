@@ -3,7 +3,6 @@
 
 using IntVector = std::vector<int>;
 using CubeVector = std::vector<std::vector<IntVector>>;
-int zero = 0;
 
 struct Cube : public CubeVector {
   explicit Cube(int n) : CubeVector(n, std::vector<IntVector>(n, IntVector(n, 0))) {
@@ -35,7 +34,7 @@ struct CubeFenwickTree {
     }
     return result;
   }
-  int Quiery(int x1, int y1, int z1, int x2, int y2, int z2) {
+  int Query(int x1, int y1, int z1, int x2, int y2, int z2) {
     int result = GetPrefix(x2, y2, z2);
     result -= GetPrefix(x2, y2, z1) + GetPrefix(x2, y1, z2) + GetPrefix(x1, y2, z2);
     result += GetPrefix(x2, y1, z1) + GetPrefix(x1, y2, z1) + GetPrefix(x1, y1, z2);
@@ -47,7 +46,7 @@ int main() {
   int n = 0;
   std::cin >> n;
   CubeFenwickTree tree(n);
-  int quiery = 0;
+  int query = 0;
   int x1 = 0;
   int x2 = 0;
   int y1 = 0;
@@ -55,14 +54,14 @@ int main() {
   int z1 = 0;
   int z2 = 0;
   int delta = 0;
-  while (quiery != 3) {
-    std::cin >> quiery;
-    if (quiery == 1) {
+  while (query != 3) {
+    std::cin >> query;
+    if (query == 1) {
       std::cin >> x1 >> y1 >> z1 >> delta;
       tree.Update(++x1, ++y1, ++z1, delta);
-    } else if (quiery == 2) {
+    } else if (query == 2) {
       std::cin >> x1 >> y1 >> z1 >> x2 >> y2 >> z2;
-      std::cout << tree.Quiery(x1, y1, z1, ++x2, ++y2, ++z2) << '\n';
+      std::cout << tree.Query(x1, y1, z1, ++x2, ++y2, ++z2) << '\n';
     }
   }
 }
