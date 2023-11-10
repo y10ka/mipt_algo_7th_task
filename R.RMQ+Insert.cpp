@@ -66,7 +66,7 @@ Node* Merge(Node* tree_1, Node* tree_2) {
   FixNode(tree_1);
   return tree_1;
 }
-Treap Merge(Treap tree_1, Treap tree_2) {
+Treap Merge(Treap& tree_1, Treap& tree_2) {
   return Treap(Merge(tree_1.root, tree_2.root));
 }
 
@@ -103,7 +103,7 @@ std::pair<Node*, Node*> Split(Node* tree, int64_t x0) {
   FixNode(tree_1);
   return {tree_1, tree};
 }
-std::pair<Treap, Treap> Split(Treap tree, int64_t x0) {
+std::pair<Treap, Treap> Split(Treap& tree, int64_t x0) {
   auto pair = Split(tree.root, x0);
   return {Treap(pair.first), Treap(pair.second)};
 }
@@ -116,7 +116,7 @@ void Insert(Treap& tree, int64_t idx, int64_t value) {
   tree.root = Insert(tree.root, idx, value);
 }
 
-int64_t RMQ(Node* tree, int64_t left, int64_t right) {
+int64_t RMQ(const Node* tree, int64_t left, int64_t right) {
   if (!tree) {
     return neutral;
   }
