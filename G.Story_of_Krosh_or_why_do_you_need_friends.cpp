@@ -14,7 +14,7 @@ struct TreePair {
   }
   TreePair(int value, int count) : value(value), count(count) {
   }
-  TreePair operator+(const TreePair& other) {
+  TreePair operator+(const TreePair& other) const {
     if (value == other.value) {
       int count_temp = count + other.count;
       return {value, count_temp};
@@ -54,7 +54,7 @@ struct MaxSegmentTree {
       tree[i] = tree[2 * i + 1] + tree[2 * i + 2];
     }
   }
-  IntPair Borders(int idx) {
+  IntPair Borders(int idx) const {
     int left(idx);
     int right(idx);
     while (2 * idx - size + 2 < 0) {
@@ -67,10 +67,10 @@ struct MaxSegmentTree {
     }
     return {left - size + 1, right - size + 1};
   }
-  int Size() {
+  int Size() const {
     return size;
   }
-  TreePair Query(int left_border, int right_border) {
+  TreePair Query(int left_border, int right_border) const {
     int left = left_border + size - 1;
     int right = right_border + size - 1;
     if (right <= left) {
@@ -87,6 +87,10 @@ struct MaxSegmentTree {
 };
 
 int main() {
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  std::cout.tie(nullptr);
+
   int n = 0;
   std::cin >> n;
   MaxSegmentTree tree(n);
